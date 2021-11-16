@@ -12,12 +12,16 @@ def main():
     parser.add_argument("-r", "--reverse", help="Whether the album should have its images reversed", action="store_true")
     parser.add_argument("-o", "--output", help="Directory to store albums", action="store_true")
     parser.add_argument("-n", "--nested", help= "Whether the source images are nested within a second level folder", action="store_true")
+    parser.add_argument("-e", "--extension", help="Which extension to save the album as. Supported: 7z, cbz, zip")
 
     args = parser.parse_args()
 
     if args.output == False:
         args.output = args.root_dir
     
+    if args.extension is None or args.extension not in [".zip", ".cbz", ".7z"]:
+        args.extension = ".cbz"
+        
     for dir in os.listdir(args.root_dir):
         full_paths = os.path.join(args.root_dir, dir)
 
@@ -34,7 +38,7 @@ def process_folder(dir, args):
     fullpaths= []
     for path in fullpaths_map:
         fullpaths.append(path)
-        
+
     dir_name = dir.split("\\")[-1]
     counter = 1
     if args.reverse:
@@ -43,7 +47,7 @@ def process_folder(dir, args):
     if args.shuffle:
         shuffle(fullpaths)
 
-    with zipfile.ZipFile(os.path.join(args.output, dir_name + ".zip"), 'w') as zip:
+    with zipfile.ZipFile(os.path.join(args.output, dir_name + args.extension), 'w') as zip:
         for file in fullpaths:
             if os.path.isfile(file) == False or len(file.split(".")) != 2 or file.split(".")[1] == "zip":
                 continue
