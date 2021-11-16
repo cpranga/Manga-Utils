@@ -3,7 +3,7 @@ import sys
 import shutil
 import argparse
 import zipfile
-
+from random import shuffle
 
 def main():
     parser = argparse.ArgumentParser()
@@ -26,16 +26,26 @@ def main():
         process_folder(full_paths, args)
 
 def process_folder(dir, args):
+    if os.path.isdir(dir) == False:
+        return
     dir_files = os.listdir(dir)
-    fullpaths = map(lambda name: os.path.join(dir, name), dir_files)
-    
+    fullpaths_map = map(lambda name: os.path.join(dir, name), dir_files)
+
+    fullpaths= []
+    for path in fullpaths_map:
+        fullpaths.append(path)
+        
+    dir_name = dir.split("\\")[-1]
     counter = 1
     if args.reverse:
         counter = len(dir_files)
 
-    with zipfile.ZipFile(os.path.join(args.output, "t.zip"), 'w') as zip:
+    if args.shuffle:
+        shuffle(fullpaths)
+
+    with zipfile.ZipFile(os.path.join(args.output, dir_name + ".zip"), 'w') as zip:
         for file in fullpaths:
-            if os.path.isfile(file) == False or file.split(".")[1] == "zip":
+            if os.path.isfile(file) == False or len(file.split(".")) != 2 or file.split(".")[1] == "zip":
                 continue
             #print(os.path.join(args.output, str(counter) + "."+ file.split(".")[1]))
             #shutil.move(file, os.path.join(args.output, str(counter) + "."+ file.split(".")[1]))
