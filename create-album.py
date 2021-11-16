@@ -1,6 +1,4 @@
 import os
-import sys
-import shutil
 import argparse
 import zipfile
 from random import shuffle
@@ -21,7 +19,7 @@ def main():
     
     if args.extension is None or args.extension not in [".zip", ".cbz", ".7z"]:
         args.extension = ".cbz"
-        
+
     for dir in os.listdir(args.root_dir):
         full_paths = os.path.join(args.root_dir, dir)
 
