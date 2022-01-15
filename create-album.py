@@ -9,10 +9,11 @@ def main():
     parser.add_argument("root_dir", help="Directory containing manga folders to process.")
     parser.add_argument("-s", "--shuffle", help="Whether the album images should be shuffled.", action= "store_true")
     parser.add_argument("-r", "--reverse", help="Whether the album should have its images reversed", action="store_true")
-    parser.add_argument("-o", "--output", help="Directory to store albums")
+    parser.add_argument("-o", "--output", help="Directory to store albums", action= "store_true")
     parser.add_argument("-n", "--nested", help= "Whether the source images are nested within a second level folder", action="store_true")
     parser.add_argument("-e", "--extension", help="Which extension to save the album as. Supported: 7z, cbz, zip")
     parser.add_argument("-f", "--folder", help="Whether the albums should be extracted to a folder", action="store_true")
+    parser.add_argument("-z", "--zipped", help="Whether the albums should all be zipped together", action="store_true")
 
     args = parser.parse_args()
 
